@@ -85,28 +85,56 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       {/* Experience Section */}
       {experience && experience.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">Experience</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+            Experience
+          </h2>
+
           <div className="space-y-6">
-            {experience.map((exp: any, index: number) => (
-              <div key={index} className="relative">
+            {experience.map((act: any, index: number) => (
+              <div key={index} className="relative border p-4 rounded-lg shadow-sm bg-white">
+                {/* Header - Activity Name & Type */}
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{exp.position}</h3>
-                    <p className="text-blue-600 font-medium">{exp.company}</p>
-                    {exp.location && <p className="text-gray-600 text-sm">{exp.location}</p>}
+                    <h3 className="text-lg font-semibold text-gray-900">{act.activity_name}</h3>
+                    {act.activity_type && (
+                      <p className="text-blue-600 font-medium">{act.activity_type}</p>
+                    )}
+                    {act.organization && (
+                      <p className="text-gray-600 text-sm">{act.organization}</p>
+                    )}
                   </div>
+
+                  {/* Dates */}
                   <div className="text-right text-sm text-gray-600 flex items-center gap-1">
                     <Calendar className="h-4 w-4" />
-                    <span>{formatDateRange(exp.start_date, exp.end_date, exp.is_current)}</span>
+                    <span>{formatDateRange(act.start_date, act.end_date, act.is_current)}</span>
                   </div>
                 </div>
-                {exp.description && <p className="text-gray-700 mb-2">{exp.description}</p>}
-                {exp.achievements && exp.achievements.length > 0 && (
-                  <ul className="list-disc list-inside text-gray-700 space-y-1">
-                    {exp.achievements.map((achievement: string, achIndex: number) => (
-                      <li key={achIndex}>{achievement}</li>
-                    ))}
-                  </ul>
+
+                {/* Role */}
+                {act.role && <p className="text-gray-700 mb-2"><span className="font-medium">Role:</span> {act.role}</p>}
+
+                {/* Team Size */}
+                {act.team_size && <p className="text-gray-700 mb-2"><span className="font-medium">Team Size:</span> {act.team_size}</p>}
+
+                {/* Contribution */}
+                {act.contribution && (
+                  <div className="mb-2">
+                    <p className="font-medium text-gray-800">Contribution & Responsibilities:</p>
+                    <p className="text-gray-700">{act.contribution}</p>
+                  </div>
+                )}
+
+                {/* Achievements */}
+                {act.achievements && act.achievements.length > 0 && (
+                  <div>
+                    <p className="font-medium text-gray-800">Achievements & Impact:</p>
+                    <ul className="list-disc list-inside text-gray-700 space-y-1">
+                      {act.achievements.map((achievement: string, achIndex: number) => (
+                        <li key={achIndex}>{achievement}</li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </div>
             ))}
@@ -114,29 +142,89 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
         </section>
       )}
 
+
       {/* Education Section */}
       {education && education.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">Education</h2>
-          <div className="space-y-4">
-            {education.map((edu: any, index: number) => (
-              <div key={index} className="flex justify-between items-start">
+      <section className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+          Education
+        </h2>
+
+        <div className="space-y-6">
+          {education.map((edu: any, index: number) => (
+            <div
+              key={index}
+              className="relative border p-4 rounded-lg shadow-sm bg-white"
+            >
+              {/* Institution & Degree */}
+              <div className="flex justify-between items-start mb-2">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">{edu.degree}</h3>
                   <p className="text-blue-600 font-medium">{edu.institution}</p>
-                  {edu.field_of_study && <p className="text-gray-600">{edu.field_of_study}</p>}
-                  {edu.gpa && <p className="text-gray-600 text-sm">GPA: {edu.gpa}</p>}
-                  {edu.description && <p className="text-gray-700 text-sm mt-1">{edu.description}</p>}
+                  {edu.field_of_study && (
+                    <p className="text-gray-600">{edu.field_of_study}</p>
+                  )}
                 </div>
+
+                {/* Dates */}
                 <div className="text-right text-sm text-gray-600 flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
-                  <span>{formatDateRange(edu.start_date, edu.end_date, edu.is_current)}</span>
+                  <span>
+                    {formatDateRange(edu.start_date, edu.end_date, edu.is_current)}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
-      )}
+
+              {/* Academic Details */}
+              <div className="grid grid-cols-2 gap-2 text-sm text-gray-700 mb-2">
+                {edu.cgpa && (
+                  <p>
+                    <span className="font-medium">CGPA/SGPA:</span> {edu.cgpa}
+                  </p>
+                )}
+                {edu.percentage && (
+                  <p>
+                    <span className="font-medium">Percentage:</span> {edu.percentage}
+                  </p>
+                )}
+                {edu.tenth_marks && (
+                  <p>
+                    <span className="font-medium">10th Marks:</span> {edu.tenth_marks}
+                  </p>
+                )}
+                {edu.twelfth_marks && (
+                  <p>
+                    <span className="font-medium">12th Marks:</span> {edu.twelfth_marks}
+                  </p>
+                )}
+                {edu.semester && (
+                  <p>
+                    <span className="font-medium">Current Semester:</span> {edu.semester}
+                  </p>
+                )}
+              </div>
+
+              {/* Extra Certifications */}
+              {edu.extra_certifications && (
+                <div className="mb-2">
+                  <p className="font-medium text-gray-800">Extra Certifications & Courses:</p>
+                  <p className="text-gray-700">{edu.extra_certifications}</p>
+                </div>
+              )}
+
+              {/* Academic Achievements / Projects */}
+              {edu.description && (
+                <div>
+                  <p className="font-medium text-gray-800">Academic Achievements & Projects:</p>
+                  <p className="text-gray-700">{edu.description}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
 
       {/* Skills Section */}
       {skills && skills.length > 0 && (
@@ -144,7 +232,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
           <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">Skills</h2>
           <div className="space-y-4">
             {skills.map((skillCategory: any, index: number) => (
-              <div key={index}>
+              <div key={index} className="relative border p-4 rounded-lg shadow-sm bg-white">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{skillCategory.category}</h3>
                 <div className="flex flex-wrap gap-2">
                   {skillCategory.skills.map((skill: string, skillIndex: number) => (
@@ -165,7 +253,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
           <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">Projects</h2>
           <div className="space-y-6">
             {projects.map((project: any, index: number) => (
-              <div key={index}>
+              <div key={index} className="relative border p-4 rounded-lg shadow-sm bg-white">
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
